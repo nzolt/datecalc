@@ -23,7 +23,7 @@ class DTOdateTime
      * @param string $format
      * @throws \Exception
      */
-    public function __construct(string $date, string $format = 'Y-m-d H:i')
+    public function __construct(string $date, string $format = 'Y/m/d H:i')
     {
         try{
             if(DateValidator::validateDate($date, $format)){
@@ -45,6 +45,7 @@ class DTOdateTime
                 $this->setDiffHours($hours);
             }
         } catch (InvaliDateException $e) {
+            return false;
             // TODO: Add logging
         }
 

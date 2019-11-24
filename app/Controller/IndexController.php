@@ -48,9 +48,9 @@ class IndexController
     {
         $requestVars = $this->getRequestObjest();
         $dateDTO = new DTOdateTime($requestVars->getPost('date'));
-
-        $this->sessionManager->addDate($dateDTO->__toArray());
-
+        if($dateDTO !== false){
+            $this->sessionManager->addDate($dateDTO->__toArray());
+        }
 
         $this->setNewCsrfToken();
         return ['csrft' => $this->sessionManager->getCsrf(), 'dates' => $this->sessionManager->getDates()];

@@ -11,5 +11,3 @@ Mauin Url: http(s)://localhost (when called resets the SESSION / delete stored d
 
 Calculate: http(s)://localhost/oldhours (can be accessed only from main /index/ page))
 - stores maximum 100 latest dates in Session (deleting the oldest one and adding the new to the top of the list)
-
-TODO: Add Unit tests , Behat tests

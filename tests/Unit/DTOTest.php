@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Data\DTOdateTime;
 use PHPUnit\Framework\TestCase;
+use App\Data\Validators\Exceptions\InvalidDateException;
+use App\Data\Validators\Exceptions\InvalidNameException;
 
 class DTOTest extends TestCase
 {
@@ -19,13 +21,13 @@ class DTOTest extends TestCase
      */
     public function testDTOdateSuccessTest()
     {
-        $dto = new DTOdateTime('1967/05/09', 'Y/m/d H:i', '2019/11/25 07:45');
+        $dto = new DTOdateTime('1967/05/09', 'John Doe', 'Y/m/d H:i', '2019/11/25 07:45');
         $this->assertInstanceOf('App\Data\DTOdateTime', $dto);
         $this->assertSame(52, $dto->getDiffYears());
         $this->assertSame(18996, $dto->getDiffDays());
         $this->assertSame(460639, $dto->getDiffHours());
 
-        $dto = new DTOdateTime('1967/05/09 13:25', 'Y/m/d H:i', '2019/11/25 07:45');
+        $dto = new DTOdateTime('1967/05/09 13:25', 'John Doe', 'Y/m/d H:i', '2019/11/25 07:45');
         $this->assertInstanceOf('App\Data\DTOdateTime', $dto);
         $this->assertSame(52, $dto->getDiffYears());
         $this->assertSame(18995, $dto->getDiffDays());
@@ -34,7 +36,8 @@ class DTOTest extends TestCase
 
     public function testDTOdateWrongTest()
     {
-        $dto = new DTOdateTime('1967-05 09', 'Y/m/d H:i', '2019/11/25 07:45');
+        $this->expectException(InvalidDateException::class);
+        $dto = new DTOdateTime('1967-05 09', 'John Doe', 'Y/m/d H:i', '2019/11/25 07:45');
         $this->assertInstanceOf('App\Data\DTOdateTime', $dto);
         $this->assertSame(0, $dto->getDiffYears());
         $this->assertSame(0, $dto->getDiffDays());
@@ -43,7 +46,14 @@ class DTOTest extends TestCase
 
     public function testDTOdateArrayTest()
     {
-        $dto = new DTOdateTime('1967-05 09', 'Y/m/d H:i', '2019/11/25 07:45');
-        $this->assertIsArray($dto->__toArray());
+        $dto = new DTOdateTime('1967/05/09', 'John Doe', 'Y/m/d H:i', '2019/11/25 07:45');
+        $dtoArray = $dto->__toArray();
+        $this->assertIsArray($dtoArray);
+        $this->assertTrue(array_key_exists('Name', $dtoArray));
+        $this->assertTrue(array_key_exists('Currentdate', $dtoArray));
+        $this->assertTrue(array_key_exists('Birthdate', $dtoArray));
+        $this->assertTrue(array_key_exists('Years', $dtoArray));
+        $this->assertTrue(array_key_exists('Days', $dtoArray));
+        $this->assertTrue(array_key_exists('Hours', $dtoArray));
     }
 }

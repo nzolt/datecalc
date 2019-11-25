@@ -1,12 +1,11 @@
 <?php
 
 
-namespace App\Data\Validator;
-
+namespace App\Data\Validators\Exceptions;
 
 use Throwable;
 
-class InvaliDateException extends \Exception
+class InvalidDateException extends \Exception
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {

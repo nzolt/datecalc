@@ -17,9 +17,10 @@ class SessionTest extends TestCase
             'Years' => '52',
             'Days' => '18996',
             'Hours' => '460639',
+            'Name' => 'John Doe',
         ];
 
-        $sessionManager = new SessionManager();
+        $sessionManager = new SessionManager(false);
         $sessionManager->addDate($dateArray);
     }
 
@@ -36,6 +37,7 @@ class SessionTest extends TestCase
         $this->assertIsArray($dates[0]);
 
         $date = $dates[0];
+        $this->assertSame('John Doe', $date['Name']);
         $this->assertSame('52', $date['Years']);
         $this->assertSame('18996', $date['Days']);
         $this->assertSame('460639', $date['Hours']);

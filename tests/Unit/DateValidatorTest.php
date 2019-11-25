@@ -2,10 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Data\DateValidator;
+use App\Data\Validators\DateValidator;
+use App\Data\Validators\Exceptions\InvalidDateException;
 use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends TestCase
+class DateValidatorTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -17,7 +18,7 @@ class ValidatorTest extends TestCase
      *
      * @return void
      */
-    public function testValidTest()
+    public function testValidDateTest()
     {
         $validator = DateValidator::validateDate('1967/05/09 13:25');
         $this->assertTrue($validator);
@@ -31,12 +32,14 @@ class ValidatorTest extends TestCase
      *
      * @return void
      */
-    public function testInalidTest()
+    public function testInvalidDateTest()
     {
-        $validator = DateValidator::validateDate('1967-05-09');
-        $this->assertFalse($validator);
+        $this->expectException(InvalidDateException::class);
+        $valid = DateValidator::validateDate('1967-05-09');
+        $this->assertFalse($valid);
 
-        $validator = DateValidator::validateDate('1967-05-09 13:25');
-        $this->assertFalse($validator);
+        $this->expectException(InvalidDateException::class);
+        $valid = DateValidator::validateDate('1967-05-09 13:25');
+        $this->assertFalse($valid);
     }
 }

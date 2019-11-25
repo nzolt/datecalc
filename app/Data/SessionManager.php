@@ -9,10 +9,8 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class SessionManager
 {
-    public function __construct()
+    public function __construct(bool $init = true)
     {
-        // Set the SESSION liftime
-        //Session::init(3600);
     }
 
     /**

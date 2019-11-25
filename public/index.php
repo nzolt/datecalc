@@ -1,4 +1,6 @@
 <?php
+session_start();
+session_set_cookie_params(3600);
 // Require composer autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -18,7 +20,6 @@ $blade = new Blade(__DIR__ . '/../views', 'cache');
 $router = new Router();
 // Define routes
 $router->before('POST', '/oldhours', function() use($csrft) {
-    //var_dump(Session::get('CSRFT'), $csrft);
     if (Session::get('CSRFT') != $csrft) {
         Nette\Http\Response::S403_FORBIDDEN;
         header('HTTP/1.1 403 Unauthorized');
@@ -34,7 +35,6 @@ $router->get('/oldhours', function () use($controller, $blade) {
     echo $blade->make('list', $controller->index())->render();
 });
 $router->post('/oldhours', function () use($controller, $blade) {
-    //die(var_dump($controller->process()));
     echo $blade->make('list', $controller->process())->render();
 });
 // Run it!

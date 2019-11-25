@@ -3,7 +3,10 @@
 
 namespace App\Data;
 
-use App\Data\Validator\InvaliDateException;
+use App\Data\Validators\DateValidator;
+use App\Data\Validators\NameValidator;
+use App\Data\Validators\Exceptions\InvalidNameException;
+use App\Data\Validators\Exceptions\InvalidDateException;
 
 /**
  * Class DTOdateTime
@@ -16,6 +19,7 @@ class DTOdateTime
     protected $diffYears = 0;
     protected $diffDays = 0;
     protected $diffHours = 0;
+    protected $name = '';
 
     /**
      * DTOdateTime constructor.
@@ -23,35 +27,32 @@ class DTOdateTime
      * @param string $format
      * @throws \Exception
      */
-    public function __construct(string $date, string $format = 'Y/m/d H:i', string $currentDate = null)
+    public function __construct(string $date, $name, string $format = 'Y/m/d H:i', string $currentDate = null)
     {
-        try{
-            if(DateValidator::validateDate($date, $format)){
-                if($currentDate == null){
-                    $current = new \DateTime();
-                } else {
-                    $current = new \DateTime($currentDate);
-                }
-
-                $this->setCurrentDate($current->format($format));
-                $birthDate = new \DateTime($date);
-                $this->setBirthDate($birthDate->format($format));
-                // Get dates difference
-                $diff = $current->diff($birthDate);
-                // Years
-                $this->setDiffYears($diff->y);
-                // Days
-                $days = $diff->d;
-                $days = $days + ($diff->y * 365);
-                $this->setDiffDays(floor($days));
-                // Hours
-                $hours = $diff->h;
-                $hours = $hours + ($diff->days*24);
-                $this->setDiffHours(floor($hours));
+        if(DateValidator::validateDate($date, $format) && NameValidator::validateName($name)){
+            if($currentDate == null){
+                $current = new \DateTime();
+            } else {
+                $current = new \DateTime($currentDate);
             }
-        } catch (InvaliDateException $e) {
-            return false;
-            // TODO: Add logging
+
+            $this->setCurrentDate($current->format($format));
+            $birthDate = new \DateTime($date);
+            $this->setBirthDate($birthDate->format($format));
+            // Get dates difference
+            $diff = $current->diff($birthDate);
+            // Years
+            $this->setDiffYears($diff->y);
+            // Days
+            $days = $diff->d;
+            $days = $days + ($diff->y * 365);
+            $this->setDiffDays(floor($days));
+            // Hours
+            $hours = $diff->h;
+            $hours = $hours + ($diff->days*24);
+            $this->setDiffHours(floor($hours));
+
+            $this->setName($name);
         }
 
         return $this;
@@ -143,12 +144,29 @@ class DTOdateTime
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
      * Class vars to Array
      * @return array
      */
     public function __toArray()
     {
         return [
+            'Name' => (string)$this->getName(),
             'Currentdate' => (string)$this->getCurrentDate(),
             'Birthdate' => (string)$this->getBirthDate(),
             'Years' => (string)$this->getDiffYears(),

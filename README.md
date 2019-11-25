@@ -1,6 +1,15 @@
 # Workforce date calculator
 
-Code owner: Zoltan Nagy <nzolthu@gmail.com>
+Composer based project, no framework
+Language: PHP (v7.2)
+Libraries:
+- bramus/router: ~1.4
+- jenssegers/blade: ^1.2
+- josantonius/session: ^1.1
+- nette/http: ^3.0
+- ramsey/uuid: ^3.8
+Code owner: Zoltan Nagy <nzolthu@gmail.com> 
+
 ### Acceptance Criteria:
 - A name can be entered.
 - My date of birth can be entered using a date picker.

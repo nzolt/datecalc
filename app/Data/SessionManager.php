@@ -11,7 +11,8 @@ class SessionManager
 {
     public function __construct()
     {
-        Session::init(3600);
+        // Set the SESSION liftime
+        //Session::init(3600);
     }
 
     /**

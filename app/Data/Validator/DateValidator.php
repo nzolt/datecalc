@@ -21,11 +21,17 @@ class DateValidator
         if(strlen($date) == 10){
             $date = $date . ' 00:00';
         }
-        if(self::validateFormat($date)){
-            $d = \DateTime::createFromFormat($format, $date);
-            $cd = new \DateTime();
-            return $d && $d->format($format) === $date && ($d->getTimestamp() < $cd->getTimestamp());
+        try{
+            if(self::validateFormat($date)){
+                $d = \DateTime::createFromFormat($format, $date);
+                $cd = new \DateTime();
+                return $d && $d->format($format) === $date && ($d->getTimestamp() < $cd->getTimestamp());
+            }
+        } catch (InvaliDateException $e){
+            // TODO: Add logging
+            return false;
         }
+
 
         return false;
     }

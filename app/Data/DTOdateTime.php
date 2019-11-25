@@ -23,11 +23,16 @@ class DTOdateTime
      * @param string $format
      * @throws \Exception
      */
-    public function __construct(string $date, string $format = 'Y/m/d H:i')
+    public function __construct(string $date, string $format = 'Y/m/d H:i', string $currentDate = null)
     {
         try{
             if(DateValidator::validateDate($date, $format)){
-                $current = new \DateTime();
+                if($currentDate == null){
+                    $current = new \DateTime();
+                } else {
+                    $current = new \DateTime($currentDate);
+                }
+
                 $this->setCurrentDate($current->format($format));
                 $birthDate = new \DateTime($date);
                 $this->setBirthDate($birthDate->format($format));
@@ -38,11 +43,11 @@ class DTOdateTime
                 // Days
                 $days = $diff->d;
                 $days = $days + ($diff->y * 365);
-                $this->setDiffDays($days);
+                $this->setDiffDays(floor($days));
                 // Hours
                 $hours = $diff->h;
                 $hours = $hours + ($diff->days*24);
-                $this->setDiffHours($hours);
+                $this->setDiffHours(floor($hours));
             }
         } catch (InvaliDateException $e) {
             return false;
@@ -122,9 +127,9 @@ class DTOdateTime
     }
 
     /**
-     * @return float
+     * @return int
      */
-    public function getDiffHours(): float
+    public function getDiffHours(): int
     {
         return $this->diffHours;
     }

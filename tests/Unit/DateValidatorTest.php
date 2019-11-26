@@ -42,4 +42,16 @@ class DateValidatorTest extends TestCase
         $valid = DateValidator::validateDate('1967-05-09 13:25');
         $this->assertFalse($valid);
     }
+
+    /**
+     * A Date is invalid.
+     *
+     * @return void
+     */
+    public function testEmptyDateTest()
+    {
+        $this->expectException(InvalidDateException::class);
+        $valid = DateValidator::validateDate('');
+        $this->assertFalse($valid);
+    }
 }

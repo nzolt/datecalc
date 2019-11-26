@@ -17,7 +17,7 @@ class DateValidator
      * @return bool
      * @throws InvalidDateException
      */
-    public static function validateDate(string $date, string $format = 'Y/m/d H:i'): bool
+    public static function validateDate($date, $format = 'Y/m/d H:i'): bool
     {
         if(strlen($date) == 10){
             $date = $date . ' 00:00';
@@ -38,7 +38,7 @@ class DateValidator
      * @return bool
      * @throws InvalidDateException
      */
-    protected static function validateDateCreate(string $date, string $format): bool
+    protected static function validateDateCreate($date, string $format): bool
     {
         $bd = \DateTime::createFromFormat($format, $date);
         $cd = new \DateTime();
@@ -53,7 +53,7 @@ class DateValidator
      * @param string $date
      * @return bool
      */
-    public static function validateFormat(string $date): ?bool
+    public static function validateFormat($date): ?bool
     {
         if (preg_match("/(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2})/", $date)) {
             return true;

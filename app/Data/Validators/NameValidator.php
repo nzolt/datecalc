@@ -17,7 +17,7 @@ class NameValidator
      * @return bool
      * @throws InvalidNameException
      */
-    public static function validateName(string $name): bool
+    public static function validateName($name): bool
     {
         if (preg_match("/^[a-zA-Z ?.]*$/", $name) && $name != '' && strlen($name) <= 64) {
             return true;

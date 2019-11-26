@@ -42,4 +42,16 @@ class NameValidatorTest extends TestCase
         $valid = NameValidator::validateName('John_Doe');
         $this->assertFalse($valid);
     }
+
+    /**
+     * A Date is invalid.
+     *
+     * @return void
+     */
+    public function testEmptyNameTest()
+    {
+        $this->expectException(InvalidNameException::class);
+        $valid = NameValidator::validateName('');
+        $this->assertFalse($valid);
+    }
 }

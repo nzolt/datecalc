@@ -72,6 +72,7 @@ class IndexController
             ];
     }
 
+
     protected function getRequestObject()
     {
         // Create Request instance

@@ -27,7 +27,7 @@ class DTOdateTime
      * @param string $format
      * @throws \Exception
      */
-    public function __construct(string $date, $name, string $format = 'Y/m/d H:i', string $currentDate = null)
+    public function __construct($date, $name, string $format = 'Y/m/d H:i', string $currentDate = null)
     {
         if(DateValidator::validateDate($date, $format) && NameValidator::validateName($name)){
             if($currentDate == null){
